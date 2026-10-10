@@ -87,7 +87,7 @@ function ServiceFormPage() {
       if (data && typeof data === 'object') {
         setError(Object.values(data).flat().join(' '));
       } else {
-        setError('Could not save service.');
+        setError('Não foi possível salvar o serviço.');
       }
     } finally {
       setSubmitting(false);
@@ -107,13 +107,13 @@ function ServiceFormPage() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to My Services
+          Voltar para Meus Serviços
         </Link>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          {isEdit ? 'Edit Service' : 'Create New Service'}
+          {isEdit ? 'Editar Serviço' : 'Criar Novo Serviço'}
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          {isEdit ? 'Update your service details' : 'Fill in the details to list your service'}
+          {isEdit ? 'Atualize os detalhes do seu serviço' : 'Preencha os detalhes para anunciar seu serviço'}
         </p>
       </div>
 
@@ -132,15 +132,15 @@ function ServiceFormPage() {
           {/* Image Upload */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-              Service Image
+              Imagem do Serviço
             </label>
             <div className="flex items-start gap-6">
               <div className="relative w-32 h-32 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center group">
                 {imagePreview ? (
                   <>
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={imagePreview} alt="Pré-visualização" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="text-white text-xs font-medium">Change</span>
+                      <span className="text-white text-xs font-medium">Alterar</span>
                     </div>
                   </>
                 ) : (
@@ -158,9 +158,9 @@ function ServiceFormPage() {
                 />
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                <p className="font-medium text-gray-700 dark:text-gray-300 mb-1">Upload an image</p>
-                <p>JPG or PNG, max 3MB</p>
-                <p className="mt-2 text-xs">Recommended: 800x600 pixels</p>
+                <p className="font-medium text-gray-700 dark:text-gray-300 mb-1">Envie uma imagem</p>
+                <p>JPG ou PNG, máx 3MB</p>
+                <p className="mt-2 text-xs">Recomendado: 800x600 pixels</p>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ function ServiceFormPage() {
           {/* Title */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Service Title
+              Título do Serviço
             </label>
             <input
               name="title"
@@ -176,16 +176,16 @@ function ServiceFormPage() {
               onChange={onChange}
               required
               maxLength={60}
-              placeholder="e.g., Professional Plumbing Services"
+              placeholder="ex., Serviços de Encanamento Profissional"
               className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
             />
-            <p className="text-xs text-gray-400 mt-1">{form.title.length}/60 characters</p>
+            <p className="text-xs text-gray-400 mt-1">{form.title.length}/60 caracteres</p>
           </div>
 
           {/* Description */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Description
+              Descrição
             </label>
             <textarea
               name="description"
@@ -194,20 +194,20 @@ function ServiceFormPage() {
               required
               maxLength={250}
               rows={4}
-              placeholder="Describe your service in detail..."
+              placeholder="Descreva seu serviço em detalhes..."
               className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none transition-shadow"
             />
-            <p className="text-xs text-gray-400 mt-1">{form.description.length}/250 characters</p>
+            <p className="text-xs text-gray-400 mt-1">{form.description.length}/250 caracteres</p>
           </div>
 
           {/* Price and Category */}
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                Price (₹)
+                Preço (R$)
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">₹</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">R$</span>
                 <input
                   name="price"
                   type="number"
@@ -216,14 +216,14 @@ function ServiceFormPage() {
                   value={form.price}
                   onChange={onChange}
                   required
-                  placeholder="0.00"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-8 pr-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
+                  placeholder="0,00"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-12 pr-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
                 />
               </div>
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                Category
+                Categoria
               </label>
               <select
                 name="category"
@@ -232,7 +232,7 @@ function ServiceFormPage() {
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow appearance-none"
               >
-                <option value="">Select a category</option>
+                <option value="">Selecione uma categoria</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -255,12 +255,12 @@ function ServiceFormPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Saving...
+                  Salvando...
                 </span>
               ) : isEdit ? (
-                'Save Changes'
+                'Salvar Alterações'
               ) : (
-                'Create Service'
+                'Criar Serviço'
               )}
             </button>
             <button
@@ -268,7 +268,7 @@ function ServiceFormPage() {
               onClick={() => navigate('/my-services')}
               className="px-6 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
-              Cancel
+              Cancelar
             </button>
           </div>
         </form>
@@ -278,4 +278,3 @@ function ServiceFormPage() {
 }
 
 export default ServiceFormPage;
-

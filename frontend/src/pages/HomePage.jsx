@@ -5,12 +5,12 @@ import ServiceCard from '../components/ServiceCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const CATEGORIES = [
-  { name: 'Plumbing', icon: '🔧', color: 'from-blue-500 to-blue-600' },
-  { name: 'Electrical', icon: '⚡', color: 'from-yellow-500 to-orange-500' },
-  { name: 'Cleaning', icon: '🧹', color: 'from-green-500 to-emerald-500' },
-  { name: 'Painting', icon: '🎨', color: 'from-purple-500 to-pink-500' },
-  { name: 'Carpentry', icon: '🪚', color: 'from-amber-600 to-amber-700' },
-  { name: 'AC Repair', icon: '❄️', color: 'from-cyan-500 to-blue-500' },
+  { name: 'Encanador', icon: '🔧', color: 'from-blue-500 to-blue-600' },
+  { name: 'Elétrica', icon: '⚡', color: 'from-yellow-500 to-orange-500' },
+  { name: 'Limpeza', icon: '🧹', color: 'from-green-500 to-emerald-500' },
+  { name: 'Pintura', icon: '🎨', color: 'from-purple-500 to-pink-500' },
+  { name: 'Carpintaria', icon: '🪚', color: 'from-amber-600 to-amber-700' },
+  { name: 'Ar Condicionado', icon: '❄️', color: 'from-cyan-500 to-blue-500' },
 ];
 
 export default function HomePage() {
@@ -43,11 +43,11 @@ export default function HomePage() {
 
         <div className="relative text-center max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
-            Find Trusted Local
-            <span className="block text-primary-200">Service Providers</span>
+            Encontre Prestadores de Serviços
+            <span className="block text-primary-200">Confiáveis na sua Região</span>
           </h1>
           <p className="text-primary-100 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
-            Book verified professionals for all your home service needs. From plumbing to painting, we&apos;ve got you covered.
+            Reserve profissionais verificados para todas as suas necessidades de serviços domésticos. De encanamento a pintura, temos você coberto.
           </p>
 
           {/* Decorative Search Bar - Non-functional */}
@@ -59,7 +59,7 @@ export default function HomePage() {
                 </svg>
                 <input
                   type="text"
-                  placeholder="What service do you need?"
+                  placeholder="Qual serviço você precisa?"
                   className="flex-1 py-3 text-gray-900 dark:text-white bg-transparent border-none outline-none placeholder:text-gray-400"
                   readOnly
                 />
@@ -68,7 +68,7 @@ export default function HomePage() {
                 to="/services/nearby"
                 className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white px-6 py-3 rounded-xl font-semibold transition-all hover:shadow-lg hover:shadow-primary-500/30"
               >
-                Explore
+                Explorar
               </Link>
             </div>
           </div>
@@ -78,8 +78,8 @@ export default function HomePage() {
       {/* Categories Grid */}
       <div>
         <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Popular Categories</h2>
-          <p className="text-gray-500 dark:text-gray-400">Browse services by category</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Categorias Populares</h2>
+          <p className="text-gray-500 dark:text-gray-400">Navegue por categoria</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {CATEGORIES.map((cat) => (
@@ -101,18 +101,9 @@ export default function HomePage() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Featured Services</h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">Top-rated services in your area</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Serviços em Destaque</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">Serviços mais bem avaliados da sua região</p>
           </div>
-          {/* <Link
-            to="/services/nearby"
-            className="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-          >
-            View all
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link> */}
         </div>
 
         {loading ? (
@@ -120,8 +111,8 @@ export default function HomePage() {
         ) : services.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">
             <div className="text-5xl mb-4">🔍</div>
-            <p className="text-gray-500 dark:text-gray-400 text-lg">No services available yet</p>
-            <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Check back soon for new listings</p>
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Nenhum serviço disponível ainda</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Volte em breve para novos anúncios</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -135,14 +126,14 @@ export default function HomePage() {
       {/* How It Works */}
       <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 p-8 sm:p-12">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">How It Works</h2>
-          <p className="text-gray-500 dark:text-gray-400">Get your service done in 3 easy steps</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Como Funciona</h2>
+          <p className="text-gray-500 dark:text-gray-400">Resolva seu serviço em 3 passos simples</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { step: '01', title: 'Find a Service', desc: 'Browse through our verified service providers near you', icon: '🔍' },
-            { step: '02', title: 'Book Online', desc: 'Choose a time slot that works best for your schedule', icon: '📅' },
-            { step: '03', title: 'Get It Done', desc: 'Sit back and relax while our professionals handle the job', icon: '✅' },
+            { step: '01', title: 'Encontre um Serviço', desc: 'Navegue pelos prestadores verificados perto de você', icon: '🔍' },
+            { step: '02', title: 'Reserve Online', desc: 'Escolha o melhor horário para você', icon: '📅' },
+            { step: '03', title: 'Pronto', desc: 'Relaxe enquanto nossos profissionais cuidam do trabalho', icon: '✅' },
           ].map((item, i) => (
             <div key={i} className="text-center group">
               <div className="relative inline-block mb-4">
@@ -168,14 +159,14 @@ export default function HomePage() {
         </div>
         <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Are you a service provider?</h2>
-            <p className="text-gray-400 text-lg">Join our platform and grow your business with thousands of customers</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">É um prestador de serviços?</h2>
+            <p className="text-gray-400 text-lg">Junte-se à nossa plataforma e cresça seu negócio com milhares de clientes</p>
           </div>
           <Link
             to="/signup"
             className="flex-shrink-0 bg-white hover:bg-gray-100 text-gray-900 px-8 py-4 rounded-xl font-bold text-lg transition-all hover:shadow-xl hover:shadow-white/10 hover:-translate-y-0.5"
           >
-            Get Started Free
+            Começar Grátis
           </Link>
         </div>
       </div>

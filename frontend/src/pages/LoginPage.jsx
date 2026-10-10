@@ -21,7 +21,7 @@ export default function LoginPage() {
       const user = await login(form.username, form.password);
       navigate(user.role === 'provider' ? '/dashboard' : '/');
     } catch (err) {
-      setError(err.response?.data?.detail ?? 'Invalid credentials');
+      setError(err.response?.data?.detail ?? 'Credenciais inválidas');
     } finally {
       setLoading(false);
     }
@@ -40,8 +40,8 @@ export default function LoginPage() {
         {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 p-8 sm:p-10">
           <div className="text-center mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back</h1>
-            <p className="text-gray-500 dark:text-gray-400">Log in to continue to your account</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Bem-vindo de volta</h1>
+            <p className="text-gray-500 dark:text-gray-400">Entre para acessar sua conta</p>
           </div>
 
           {error && (
@@ -55,18 +55,18 @@ export default function LoginPage() {
 
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Username</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Usuário</label>
               <input
                 name="username"
                 value={form.username}
                 onChange={onChange}
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
-                placeholder="Enter your username"
+                placeholder="Digite seu usuário"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Senha</label>
               <input
                 name="password"
                 type="password"
@@ -74,7 +74,7 @@ export default function LoginPage() {
                 onChange={onChange}
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
-                placeholder="Enter your password"
+                placeholder="Digite sua senha"
               />
             </div>
             <button
@@ -88,19 +88,19 @@ export default function LoginPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Logging in...
+                  Entrando...
                 </span>
               ) : (
-                'Log in'
+                'Entrar'
               )}
             </button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
             <p className="text-center text-gray-500 dark:text-gray-400">
-              Don&apos;t have an account?{' '}
+              Não tem uma conta?{' '}
               <Link to="/signup" className="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300">
-                Sign up
+                Cadastre-se
               </Link>
             </p>
           </div>

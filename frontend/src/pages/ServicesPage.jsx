@@ -38,21 +38,21 @@ export default function ServicesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Browse Services</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Explorar Serviços</h1>
 
       {/* Filters bar */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-6 flex flex-wrap gap-3 items-end">
         <div className="flex-1 min-w-48">
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Search</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Buscar</label>
           <input
             value={search}
             onChange={(e) => setParam('search', e.target.value)}
-            placeholder="Title, category…"
+            placeholder="Título, categoria…"
             className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
         <div className="w-40">
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Min price (₹)</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Preço mín. (R$)</label>
           <input
             type="number"
             value={minPrice}
@@ -62,25 +62,25 @@ export default function ServicesPage() {
           />
         </div>
         <div className="w-40">
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Max price (₹)</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Preço máx. (R$)</label>
           <input
             type="number"
             value={maxPrice}
             onChange={(e) => setParam('price__lt', e.target.value)}
-            placeholder="Any"
+            placeholder="Qualquer"
             className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
         <div className="w-36">
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Sort by</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Ordenar por</label>
           <select
             value={ordering}
             onChange={(e) => setParam('ordering', e.target.value)}
             className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="">Default</option>
-            <option value="price">Price: Low to High</option>
-            <option value="-price">Price: High to Low</option>
+            <option value="">Padrão</option>
+            <option value="price">Preço: Menor para Maior</option>
+            <option value="-price">Preço: Maior para Menor</option>
           </select>
         </div>
       </div>
@@ -88,10 +88,10 @@ export default function ServicesPage() {
       {loading ? (
         <LoadingSpinner />
       ) : services.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400 py-16">No services found</p>
+        <p className="text-center text-gray-500 dark:text-gray-400 py-16">Nenhum serviço encontrado</p>
       ) : (
         <>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{services.length} services found</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{services.length} serviços encontrados</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {services.map((s) => (
               <ServiceCard key={s.id} service={s} />

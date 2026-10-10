@@ -33,12 +33,12 @@ export default function NearbyServicesPage() {
   function getLocation() {
     setLocError('');
     if (!navigator.geolocation) {
-      setLocError('Geolocation is not supported by your browser.');
+      setLocError('Geolocalização não é suportada pelo seu navegador.');
       return;
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => setLocError('Could not determine your location. Please allow location access.')
+      () => setLocError('Não foi possível determinar sua localização. Permita o acesso à localização.')
     );
   }
 
@@ -84,15 +84,15 @@ export default function NearbyServicesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Nearby Services</h1>
-          <p className="text-gray-500 dark:text-gray-400">Find trusted service providers close to you</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Serviços Próximos</h1>
+          <p className="text-gray-500 dark:text-gray-400">Encontre prestadores confiáveis perto de você</p>
         </div>
         {coords && (
           <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1.5 rounded-full">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            Location enabled
+            Localização ativa
           </div>
         )}
       </div>
@@ -102,7 +102,7 @@ export default function NearbyServicesPage() {
         <div className="flex flex-wrap gap-4 items-end">
           <div className="w-32">
             <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">
-              Radius
+              Raio
             </label>
             <div className="relative">
               <input
@@ -118,7 +118,7 @@ export default function NearbyServicesPage() {
           </div>
           <div className="flex-1 min-w-[200px]">
             <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide">
-              Search
+              Buscar
             </label>
             <div className="relative">
               <svg
@@ -132,7 +132,7 @@ export default function NearbyServicesPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search services..."
+                placeholder="Buscar serviços..."
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl pl-10 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
@@ -145,7 +145,7 @@ export default function NearbyServicesPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            Use my location
+            Usar minha localização
           </button>
         </div>
       </div>
@@ -169,23 +169,23 @@ export default function NearbyServicesPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Enable Location</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Ativar Localização</h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
-            Click the button above to find services near your current location
+            Clique no botão acima para encontrar serviços perto de você
           </p>
         </div>
       )}
 
       {/* Loading */}
-      {loading && <LoadingSpinner text="Finding nearby services..." />}
+      {loading && <LoadingSpinner text="Encontrando serviços próximos..." />}
 
       {/* No Results */}
       {!loading && coords && services.length === 0 && (
         <div className="text-center py-16 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700">
           <div className="text-5xl mb-4">🔍</div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No services found</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Nenhum serviço encontrado</h3>
           <p className="text-gray-500 dark:text-gray-400">
-            No services found within {radius} km. Try increasing the radius.
+            Nenhum serviço encontrado em {radius} km. Tente aumentar o raio.
           </p>
         </div>
       )}
@@ -195,7 +195,7 @@ export default function NearbyServicesPage() {
         <>
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Found <span className="font-semibold text-gray-900 dark:text-white">{services.length}</span> services near you
+              <span className="font-semibold text-gray-900 dark:text-white">{services.length}</span> serviços encontrados perto de você
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

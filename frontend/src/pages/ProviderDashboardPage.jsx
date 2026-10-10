@@ -29,8 +29,8 @@ export default function ProviderDashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400">Welcome back! Here&apos;s your business overview</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Painel</h1>
+          <p className="text-gray-500 dark:text-gray-400">Bem-vindo de volta! Aqui está o resumo do seu negócio</p>
         </div>
         <Link
           to="/my-services/new"
@@ -39,7 +39,7 @@ export default function ProviderDashboardPage() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Add Service
+          Adicionar Serviço
         </Link>
       </div>
 
@@ -48,7 +48,7 @@ export default function ProviderDashboardPage() {
           {/* Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
-              label="Total Bookings"
+              label="Total de Reservas"
               value={summary.total_bookings ?? 0}
               icon={
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +58,7 @@ export default function ProviderDashboardPage() {
               color="blue"
             />
             <StatCard
-              label="Pending"
+              label="Pendentes"
               value={countFor('pending')}
               icon={
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,7 +68,7 @@ export default function ProviderDashboardPage() {
               color="amber"
             />
             <StatCard
-              label="Completed"
+              label="Concluídas"
               value={countFor('completed')}
               icon={
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,8 +78,8 @@ export default function ProviderDashboardPage() {
               color="green"
             />
             <StatCard
-              label="Total Earnings"
-              value={`₹${summary.total_earning ?? 0}`}
+              label="Ganhos Totais"
+              value={`R$ ${summary.total_earning ?? 0}`}
               icon={
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -94,8 +94,8 @@ export default function ProviderDashboardPage() {
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-2xl p-6 text-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-100 text-sm font-medium mb-1">This Month&apos;s Earnings</p>
-                  <p className="text-3xl font-bold">₹{summary.monthly_earning}</p>
+                  <p className="text-blue-100 text-sm font-medium mb-1">Ganhos deste Mês</p>
+                  <p className="text-3xl font-bold">R$ {summary.monthly_earning}</p>
                 </div>
                 <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,12 +109,12 @@ export default function ProviderDashboardPage() {
           {/* Recent Bookings */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
             <div className="p-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-              <h2 className="font-bold text-lg text-gray-900 dark:text-white">Recent Bookings</h2>
+              <h2 className="font-bold text-lg text-gray-900 dark:text-white">Reservas Recentes</h2>
               <Link
                 to="/provider-bookings"
                 className="text-sm text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700"
               >
-                View all
+                Ver todas
               </Link>
             </div>
 
@@ -127,16 +127,16 @@ export default function ProviderDashboardPage() {
                         ID
                       </th>
                       <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                        Customer
+                        Cliente
                       </th>
                       <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                        Date
+                        Data
                       </th>
                       <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                         Status
                       </th>
                       <th className="text-right px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                        Amount
+                        Valor
                       </th>
                     </tr>
                   </thead>
@@ -161,7 +161,7 @@ export default function ProviderDashboardPage() {
                           <StatusBadge status={b.status} />
                         </td>
                         <td className="px-5 py-4 text-right font-bold text-gray-900 dark:text-white">
-                          {b.amount != null ? `₹${b.amount}` : '—'}
+                          {b.amount != null ? `R$ ${b.amount}` : '—'}
                         </td>
                       </tr>
                     ))}
@@ -175,15 +175,15 @@ export default function ProviderDashboardPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No bookings yet</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Nenhuma reserva ainda</h3>
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
-                  Share your services to start receiving bookings
+                  Divulgue seus serviços para começar a receber reservas
                 </p>
                 <Link
                   to="/my-services"
                   className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700"
                 >
-                  Manage services
+                  Gerenciar serviços
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -194,7 +194,7 @@ export default function ProviderDashboardPage() {
         </>
       ) : (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
-          <p className="text-gray-500 dark:text-gray-400">Could not load dashboard data</p>
+          <p className="text-gray-500 dark:text-gray-400">Não foi possível carregar os dados do painel</p>
         </div>
       )}
     </div>
@@ -231,9 +231,17 @@ function StatusBadge({ status }) {
     cancelled: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
   };
 
+  const labels = {
+    pending: 'Pendente',
+    confirmed: 'Confirmada',
+    started: 'Em Andamento',
+    completed: 'Concluída',
+    cancelled: 'Cancelada',
+  };
+
   return (
-    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${config[status] ?? 'bg-gray-100 text-gray-700'}`}>
-      {status}
+    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${config[status] ?? 'bg-gray-100 text-gray-700'}`}>
+      {labels[status] ?? status}
     </span>
   );
 }

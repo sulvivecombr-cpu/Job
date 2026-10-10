@@ -18,7 +18,7 @@ export default function MyServicesPage() {
   }, []);
 
   async function deleteService(id) {
-    if (!confirm('Delete this service?')) return;
+    if (!confirm('Excluir este serviço?')) return;
     setDeleting(id);
     try {
       await client.delete(`/services/delete/${id}/`);
@@ -32,9 +32,9 @@ export default function MyServicesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">My Services</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Meus Serviços</h1>
           <p className="text-gray-500 dark:text-gray-400">
-            Manage your service listings
+            Gerencie seus anúncios de serviços
           </p>
         </div>
         <Link
@@ -44,7 +44,7 @@ export default function MyServicesPage() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Add Service
+          Adicionar Serviço
         </Link>
       </div>
 
@@ -58,9 +58,9 @@ export default function MyServicesPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No services yet</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Nenhum serviço ainda</h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
-            Create your first service to start receiving bookings
+            Crie seu primeiro serviço para começar a receber reservas
           </p>
           <Link
             to="/my-services/new"
@@ -69,7 +69,7 @@ export default function MyServicesPage() {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            Create your first service
+            Criar primeiro serviço
           </Link>
         </div>
       ) : (
@@ -95,7 +95,7 @@ export default function MyServicesPage() {
                 {/* Category Badge */}
                 <div className="absolute top-3 left-3">
                   <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold text-primary-600 dark:text-primary-400 rounded-full shadow-sm">
-                    {s.category?.name ?? 'General'}
+                    {s.category?.name ?? 'Geral'}
                   </span>
                 </div>
               </div>
@@ -112,13 +112,13 @@ export default function MyServicesPage() {
                 {/* Price and Actions */}
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
                   <span className="text-xl font-bold text-gray-900 dark:text-white">
-                    ₹{s.price}
+                    R$ {s.price}
                   </span>
                   <div className="flex items-center gap-2">
                     <Link
                       to={`/my-services/${s.id}/edit`}
                       className="p-2 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                      title="Edit"
+                      title="Editar"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -128,7 +128,7 @@ export default function MyServicesPage() {
                       onClick={() => deleteService(s.id)}
                       disabled={deleting === s.id}
                       className="p-2 rounded-lg border border-red-200 dark:border-red-800 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-60"
-                      title="Delete"
+                      title="Excluir"
                     >
                       {deleting === s.id ? (
                         <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">

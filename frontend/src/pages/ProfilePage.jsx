@@ -1,19 +1,64 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import client from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
+import AddressFields from '../components/AddressFields';
 
 export default function ProfilePage() {
   const { user } = useAuth();
   const [radius, setRadius] = useState(10);
   const [locStatus, setLocStatus] = useState({ loading: false, msg: '', error: '' });
+  const [profile, setProfile] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [profileMsg, setProfileMsg] = useState({ msg: '', error: '' });
+
+  useEffect(() => {
+    client.get('/users/me/')
+      .then(({ data }) => setProfile(data))
+      .catch(() => {})
+      .finally(() => setProfileLoading(false));
+  }, []);
+
+  function setAddressField(field, value) {
+    setProfile((p) => ({ ...p, [field]: value }));
+  }
+
+  async function handleSaveProfile(e) {
+    e.preventDefault();
+    setSavingProfile(true);
+    setProfileMsg({ msg: '', error: '' });
+    try {
+      const { data } = await client.patch('/users/me/', {
+        cpf: profile.cpf || '',
+        cep: profile.cep || '',
+        logradouro: profile.logradouro || '',
+        numero: profile.numero || '',
+        complemento: profile.complemento || '',
+        bairro: profile.bairro || '',
+        cidade: profile.cidade || '',
+        estado: profile.estado || '',
+      });
+      setProfile(data);
+      setProfileMsg({ msg: 'Dados salvos com sucesso!', error: '' });
+    } catch (err) {
+      const d = err.response?.data;
+      if (d && typeof d === 'object') {
+        setProfileMsg({ msg: '', error: Object.values(d).flat().join(' ') });
+      } else {
+        setProfileMsg({ msg: '', error: 'Falha ao salvar dados.' });
+      }
+    } finally {
+      setSavingProfile(false);
+    }
+  }
 
   async function handleLocationUpdate(e) {
     e.preventDefault();
     setLocStatus({ loading: true, msg: '', error: '' });
 
     if (!navigator.geolocation) {
-      return setLocStatus({ loading: false, msg: '', error: 'Geolocation not supported' });
+      return setLocStatus({ loading: false, msg: '', error: 'Geolocalização não suportada' });
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -25,12 +70,12 @@ export default function ProfilePage() {
             radius,
           };
           await client.patch('/users/location/', payload);
-          setLocStatus({ loading: false, msg: 'Location updated successfully!', error: '' });
+          setLocStatus({ loading: false, msg: 'Localização atualizada com sucesso!', error: '' });
         } catch {
-          setLocStatus({ loading: false, msg: '', error: 'Failed to update location.' });
+          setLocStatus({ loading: false, msg: '', error: 'Falha ao atualizar localização.' });
         }
       },
-      () => setLocStatus({ loading: false, msg: '', error: 'Location permission denied.' })
+      () => setLocStatus({ loading: false, msg: '', error: 'Permissão de localização negada.' })
     );
   }
 
@@ -45,7 +90,7 @@ export default function ProfilePage() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{user?.username}</h1>
           <p className="text-gray-500 dark:text-gray-400 capitalize flex items-center gap-2 mt-1">
             <span className={`w-2 h-2 rounded-full ${user?.role === 'provider' ? 'bg-green-500' : 'bg-blue-500'}`}></span>
-            {user?.role}
+            {user?.role === 'provider' ? 'Prestador' : 'Cliente'}
           </p>
         </div>
       </div>
@@ -62,8 +107,8 @@ export default function ProfilePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">Dashboard</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">View stats</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Painel</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Ver estatísticas</p>
           </Link>
 
           <Link
@@ -75,8 +120,8 @@ export default function ProfilePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">Bookings</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Manage orders</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Reservas</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Gerenciar pedidos</p>
           </Link>
 
           <Link
@@ -88,8 +133,8 @@ export default function ProfilePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
               </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">Services</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Edit listings</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Serviços</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Editar anúncios</p>
           </Link>
 
           <Link
@@ -101,8 +146,8 @@ export default function ProfilePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">Add New</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Create service</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">Adicionar</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Criar serviço</p>
           </Link>
         </div>
       )}
@@ -110,7 +155,7 @@ export default function ProfilePage() {
       {/* Account Info Card */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-          <h2 className="font-bold text-lg text-gray-900 dark:text-white">Account Information</h2>
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white">Dados da Conta</h2>
         </div>
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
@@ -121,7 +166,7 @@ export default function ProfilePage() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Username</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Usuário</p>
                 <p className="font-semibold text-gray-900 dark:text-white">{user?.username}</p>
               </div>
             </div>
@@ -135,8 +180,8 @@ export default function ProfilePage() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
-                <p className="font-semibold text-gray-900 dark:text-white">{user?.email || 'Not set'}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">E-mail</p>
+                <p className="font-semibold text-gray-900 dark:text-white">{user?.email || 'Não definido'}</p>
               </div>
             </div>
           </div>
@@ -149,11 +194,67 @@ export default function ProfilePage() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Account Type</p>
-                <p className="font-semibold text-gray-900 dark:text-white capitalize">{user?.role}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Tipo de Conta</p>
+                <p className="font-semibold text-gray-900 dark:text-white">{user?.role === 'provider' ? 'Prestador' : 'Cliente'}</p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Personal Data + Address (CPF e Endereço) */}
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white">CPF e Endereço</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Informe seu CPF e endereço (busca por CEP disponível)
+          </p>
+        </div>
+        <div className="p-6">
+          {profileLoading ? (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">Carregando dados...</p>
+          ) : (
+            <form onSubmit={handleSaveProfile} className="space-y-5">
+              {profileMsg.msg && (
+                <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 rounded-xl px-4 py-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm font-medium">{profileMsg.msg}</span>
+                </div>
+              )}
+              {profileMsg.error && (
+                <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-xl px-4 py-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-sm font-medium">{profileMsg.error}</span>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">CPF</label>
+                <input
+                  name="cpf"
+                  value={profile?.cpf || ''}
+                  onChange={(e) => setAddressField('cpf', e.target.value)}
+                  maxLength={14}
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
+                  placeholder="000.000.000-00"
+                />
+              </div>
+
+              <AddressFields values={profile || {}} onChange={setAddressField} />
+
+              <button
+                type="submit"
+                disabled={savingProfile}
+                className="w-full bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white py-3.5 rounded-xl font-semibold transition-all hover:shadow-lg hover:shadow-primary-500/30 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {savingProfile ? 'Salvando...' : 'Salvar Dados'}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -161,9 +262,9 @@ export default function ProfilePage() {
       {user?.role === 'provider' && (
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="font-bold text-lg text-gray-900 dark:text-white">Service Area Settings</h2>
+            <h2 className="font-bold text-lg text-gray-900 dark:text-white">Área de Atendimento</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Set your location to appear in nearby searches
+              Defina sua localização para aparecer em buscas próximas
             </p>
           </div>
           <div className="p-6">
@@ -187,7 +288,7 @@ export default function ProfilePage() {
             <form onSubmit={handleLocationUpdate} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                  Service Radius
+                  Raio de Atendimento
                 </label>
                 <div className="flex items-center gap-4">
                   <input
@@ -204,7 +305,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  You will appear in searches within this radius
+                  Você aparecerá em buscas dentro deste raio
                 </p>
               </div>
 
@@ -219,7 +320,7 @@ export default function ProfilePage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    Detecting Location...
+                    Detectando Localização...
                   </>
                 ) : (
                   <>
@@ -227,7 +328,7 @@ export default function ProfilePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    Update Location (Auto-Detect)
+                    Atualizar Localização (Automático)
                   </>
                 )}
               </button>

@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/bookings/',include('apps.booking.urls')),
     path('api/reviews/',include('apps.reviews.urls')),
     path('api/notifications/',include('apps.notifications.urls')),
+    path('api/brasil/',include('apps.brasil.urls')),
 ]
 urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

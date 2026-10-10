@@ -40,22 +40,22 @@ export default function Navbar() {
               {isProvider ? (
                 <div className="hidden sm:flex items-center gap-4 text-sm">
                   <NavLink to="/dashboard" className={navClass}>
-                    Dashboard
+                    Painel
                   </NavLink>
                   <NavLink to="/provider-bookings" className={navClass}>
-                    Bookings
+                    Reservas
                   </NavLink>
                   <NavLink to="/my-services" className={navClass}>
-                    My Services
+                    Meus Serviços
                   </NavLink>
                 </div>
               ) : (
                 <div className="hidden sm:flex items-center gap-4 text-sm">
                   <NavLink to="/services/nearby" className={navClass}>
-                    Services
+                    Serviços
                   </NavLink>
                   <NavLink to="/my-bookings" className={navClass}>
-                    Bookings
+                    Reservas
                   </NavLink>
                 </div>
               )}
@@ -86,7 +86,7 @@ export default function Navbar() {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
-                  <span className="hidden sm:inline">Logout</span>
+                  <span className="hidden sm:inline">Sair</span>
                 </button>
               </div>
             </>
@@ -96,13 +96,13 @@ export default function Navbar() {
                 to="/login"
                 className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors px-3 py-1.5"
               >
-                Login
+                Entrar
               </NavLink>
               <NavLink
                 to="/signup"
                 className="bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white px-4 py-2 rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-primary-500/30"
               >
-                Sign Up
+                Cadastrar
               </NavLink>
             </div>
           )}
@@ -111,7 +111,7 @@ export default function Navbar() {
           <button
             onClick={toggle}
             className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            aria-label="Toggle dark mode"
+            aria-label="Alternar modo escuro"
           >
             {isDark ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

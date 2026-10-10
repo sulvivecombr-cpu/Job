@@ -1,16 +1,25 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import AddressFields from '../components/AddressFields';
 
 export default function SignupPage() {
   const { signup } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', email: '', password: '', role: 'customer' });
+  const [form, setForm] = useState({
+    username: '', email: '', password: '', role: 'customer',
+    cpf: '', cep: '', logradouro: '', numero: '', complemento: '',
+    bairro: '', cidade: '', estado: '',
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   function onChange(e) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  }
+
+  function setAddressField(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
   }
 
   async function onSubmit(e) {
@@ -26,7 +35,7 @@ export default function SignupPage() {
         const messages = Object.values(data).flat().join(' ');
         setError(messages);
       } else {
-        setError('Registration failed. Please try again.');
+        setError('Falha no cadastro. Tente novamente.');
       }
     } finally {
       setLoading(false);
@@ -46,8 +55,8 @@ export default function SignupPage() {
         {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50 p-8 sm:p-10">
           <div className="text-center mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Create account</h1>
-            <p className="text-gray-500 dark:text-gray-400">Join ServiceMarket today</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">Criar conta</h1>
+            <p className="text-gray-500 dark:text-gray-400">Junte-se ao ServiceMarket hoje</p>
           </div>
 
           {error && (
@@ -61,18 +70,18 @@ export default function SignupPage() {
 
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Username</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Usuário</label>
               <input
                 name="username"
                 value={form.username}
                 onChange={onChange}
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
-                placeholder="Choose a username"
+                placeholder="Escolha um usuário"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">E-mail</label>
               <input
                 name="email"
                 type="email"
@@ -80,11 +89,11 @@ export default function SignupPage() {
                 onChange={onChange}
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
-                placeholder="Enter your email"
+                placeholder="Digite seu e-mail"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Senha</label>
               <input
                 name="password"
                 type="password"
@@ -92,11 +101,23 @@ export default function SignupPage() {
                 onChange={onChange}
                 required
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
-                placeholder="Create a password"
+                placeholder="Crie uma senha"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">I am a</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">CPF</label>
+              <input
+                name="cpf"
+                value={form.cpf}
+                onChange={onChange}
+                required
+                maxLength={14}
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
+                placeholder="000.000.000-00"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Eu sou</label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
@@ -109,9 +130,9 @@ export default function SignupPage() {
                 >
                   <div className="text-2xl mb-1">👤</div>
                   <div className={`font-semibold text-sm ${form.role === 'customer' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-900 dark:text-white'}`}>
-                    Customer
+                    Cliente
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Book services</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Reservar serviços</div>
                 </button>
                 <button
                   type="button"
@@ -124,12 +145,16 @@ export default function SignupPage() {
                 >
                   <div className="text-2xl mb-1">🔧</div>
                   <div className={`font-semibold text-sm ${form.role === 'provider' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-900 dark:text-white'}`}>
-                    Provider
+                    Prestador
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Offer services</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Oferecer serviços</div>
                 </button>
               </div>
             </div>
+
+            {/* Endereço */}
+            <AddressFields values={form} onChange={setAddressField} />
+
             <button
               type="submit"
               disabled={loading}
@@ -141,19 +166,19 @@ export default function SignupPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Creating account...
+                  Criando conta...
                 </span>
               ) : (
-                'Create account'
+                'Criar conta'
               )}
             </button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
             <p className="text-center text-gray-500 dark:text-gray-400">
-              Already have an account?{' '}
+              Já tem uma conta?{' '}
               <Link to="/login" className="text-primary-600 dark:text-primary-400 font-semibold hover:text-primary-700 dark:hover:text-primary-300">
-                Log in
+                Entrar
               </Link>
             </p>
           </div>

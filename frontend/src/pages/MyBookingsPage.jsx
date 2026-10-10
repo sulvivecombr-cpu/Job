@@ -33,8 +33,8 @@ export default function MyBookingsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">My Bookings</h1>
-          <p className="text-gray-500 dark:text-gray-400">Track and manage your service bookings</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">Minhas Reservas</h1>
+          <p className="text-gray-500 dark:text-gray-400">Acompanhe e gerencie suas reservas</p>
         </div>
         <Link
           to="/services/nearby"
@@ -43,7 +43,7 @@ export default function MyBookingsPage() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Book New Service
+          Reservar Novo Serviço
         </Link>
       </div>
 
@@ -51,10 +51,10 @@ export default function MyBookingsPage() {
       {bookings.length > 0 && (
         <div className="flex gap-2 overflow-x-auto pb-2">
           {[
-            { key: 'all', label: 'All' },
-            { key: 'pending', label: 'Pending' },
-            { key: 'confirmed', label: 'Confirmed' },
-            { key: 'completed', label: 'Completed' },
+            { key: 'all', label: 'Todas' },
+            { key: 'pending', label: 'Pendentes' },
+            { key: 'confirmed', label: 'Confirmadas' },
+            { key: 'completed', label: 'Concluídas' },
           ].map(tab => (
             <button
               key={tab.key}
@@ -88,20 +88,20 @@ export default function MyBookingsPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No bookings yet</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Nenhuma reserva ainda</h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
-            Explore services near you and book your first service
+            Explore serviços perto de você e faça sua primeira reserva
           </p>
           <Link
             to="/services/nearby"
             className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
           >
-            Browse Services
+            Explorar Serviços
           </Link>
         </div>
       ) : filteredBookings.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
-          <p className="text-gray-500 dark:text-gray-400">No {filter} bookings found</p>
+          <p className="text-gray-500 dark:text-gray-400">Nenhuma reserva {filter !== 'all' ? filter : ''} encontrada</p>
         </div>
       ) : (
         <div className="space-y-4">

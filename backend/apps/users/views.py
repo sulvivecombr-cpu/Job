@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .models import User
-from .serializers import CreateUserSerializer,UpdateUserLocationSerializer,ProfilePhotoSerializer,CustomTokenObtainPairSerializer
+from .serializers import CreateUserSerializer,UpdateUserLocationSerializer,ProfilePhotoSerializer,CustomTokenObtainPairSerializer,ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -94,6 +94,21 @@ class GetUserDetails(generics.RetrieveAPIView):
     permission_classes=[permissions.IsAuthenticated]
     def  get_queryset(self):
         return self.request.user
+
+
+class ProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = ProfileSerializer(request.user)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        serializer = ProfileSerializer(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])

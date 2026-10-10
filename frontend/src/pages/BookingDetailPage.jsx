@@ -5,11 +5,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../contexts/AuthContext';
 
 const STATUS_CONFIG = {
-  pending:   { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', icon: '⏳', label: 'Pending' },
-  confirmed: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-400', icon: '✓', label: 'Confirmed' },
-  started:   { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-400', icon: '🔧', label: 'In Progress' },
-  completed: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-400', icon: '✅', label: 'Completed' },
-  cancelled: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400', icon: '✕', label: 'Cancelled' },
+  pending:   { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', icon: '⏳', label: 'Pendente' },
+  confirmed: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-400', icon: '✓', label: 'Confirmada' },
+  started:   { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-400', icon: '🔧', label: 'Em Andamento' },
+  completed: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-400', icon: '✅', label: 'Concluída' },
+  cancelled: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400', icon: '✕', label: 'Cancelada' },
 };
 
 export default function BookingDetailPage() {
@@ -42,7 +42,7 @@ export default function BookingDetailPage() {
       if (data && typeof data === 'object') {
         setError(Object.values(data).flat().join(' '));
       } else {
-        setError('Action failed. Please try again.');
+        setError('Falha na ação. Tente novamente.');
       }
     } finally {
       setActionLoading(false);
@@ -69,7 +69,7 @@ export default function BookingDetailPage() {
         currency: data.currency ?? 'INR',
         order_id: data.order_id,
         name: 'ServiceMarket',
-        description: `Booking #${id}`,
+        description: `Reserva #${id}`,
         handler: async (response) => {
           try {
             await client.post(`/bookings/${id}/verify/`, {
@@ -78,7 +78,7 @@ export default function BookingDetailPage() {
               razorpay_signature: response.razorpay_signature,
             });
           } catch {
-            setError('Payment verification failed. Please contact support.');
+            setError('Falha na verificação do pagamento. Contate o suporte.');
           } finally {
             await refresh();
           }
@@ -92,11 +92,11 @@ export default function BookingDetailPage() {
         const rzp = new window.Razorpay(options);
         rzp.open();
       } else {
-        setError('Razorpay SDK not loaded. Please refresh the page.');
+        setError('SDK do Razorpay não carregado. Atualize a página.');
       }
     } catch (err) {
       const data = err.response?.data;
-      setError(data ? Object.values(data).flat().join(' ') : 'Could not initiate payment.');
+      setError(data ? Object.values(data).flat().join(' ') : 'Não foi possível iniciar o pagamento.');
     } finally {
       setPaymentLoading(false);
     }
@@ -107,7 +107,7 @@ export default function BookingDetailPage() {
     return (
       <div className="text-center py-20">
         <div className="text-5xl mb-4">🔍</div>
-        <p className="text-gray-500 dark:text-gray-400">Booking not found</p>
+        <p className="text-gray-500 dark:text-gray-400">Reserva não encontrada</p>
       </div>
     );
   }
@@ -116,7 +116,7 @@ export default function BookingDetailPage() {
   const status = STATUS_CONFIG[booking.status] ?? { bg: 'bg-gray-100', text: 'text-gray-700', icon: '•', label: booking.status };
   const date = new Date(booking.booking_date).toLocaleString();
   const canCancel = ['pending', 'confirmed'].includes(booking.status);
-  const paymentLabel = booking.payment_method === 'cash' ? 'Cash' : 'Online (Razorpay)';
+  const paymentLabel = booking.payment_method === 'cash' ? 'Dinheiro' : 'Online (Razorpay)';
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
@@ -128,7 +128,7 @@ export default function BookingDetailPage() {
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
-        Back to Bookings
+        Voltar para Reservas
       </Link>
 
       {/* Completed Banner */}
@@ -144,8 +144,8 @@ export default function BookingDetailPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <p className="text-2xl font-bold mb-1">Booking Complete</p>
-            <p className="text-green-100">Payment received - All done!</p>
+            <p className="text-2xl font-bold mb-1">Reserva Concluída</p>
+            <p className="text-green-100">Pagamento recebido - Tudo certo!</p>
           </div>
         </div>
       )}
@@ -153,20 +153,20 @@ export default function BookingDetailPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Booking #{id}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reserva #{id}</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{booking.service_title}</p>
         </div>
         <div className="flex items-center gap-2">
           <span className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-semibold ${status.bg} ${status.text}`}>
             <span>{status.icon}</span>
-            {!isProvider && booking?.status === 'pending' ? 'Awaiting Confirmation' : status.label}
+            {!isProvider && booking?.status === 'pending' ? 'Aguardando Confirmação' : status.label}
           </span>
           {booking.is_paid && (
             <span className="inline-flex items-center gap-1 bg-green-500 text-white px-3 py-2 rounded-full text-sm font-semibold">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              Paid
+              Pago
             </span>
           )}
         </div>
@@ -185,36 +185,36 @@ export default function BookingDetailPage() {
       {/* Details Card */}
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-          <h2 className="font-bold text-lg text-gray-900 dark:text-white">Booking Details</h2>
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white">Detalhes da Reserva</h2>
         </div>
         <div className="p-6 space-y-4">
           <DetailRow
             icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />}
-            label="Date & Time"
+            label="Data e Hora"
             value={date}
           />
           <DetailRow
             icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />}
-            label="Address"
+            label="Endereço"
             value={booking.address}
           />
           <DetailRow
             icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />}
-            label="Amount"
-            value={`₹${booking.amount}`}
+            label="Valor"
+            value={`R$ ${booking.amount}`}
             highlight
           />
           <DetailRow
             icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />}
-            label="Payment Method"
+            label="Forma de Pagamento"
             value={paymentLabel}
           />
 
           {booking.status === 'completed' && (
             <div className="flex items-center justify-between py-3 border-t border-gray-100 dark:border-gray-700">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Payment Status</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Status do Pagamento</span>
               <span className={`font-semibold ${booking.is_paid ? 'text-green-600 dark:text-green-400' : 'text-orange-500 dark:text-orange-400'}`}>
-                {booking.is_paid ? 'Paid' : 'Pending'}
+                {booking.is_paid ? 'Pago' : 'Pendente'}
               </span>
             </div>
           )}
@@ -224,12 +224,12 @@ export default function BookingDetailPage() {
               <>
                 <DetailRow
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />}
-                  label="Customer"
+                  label="Cliente"
                   value={booking.customer_name}
                 />
                 <DetailRow
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
-                  label="Customer Phone"
+                  label="Telefone do Cliente"
                   value={booking.customer_phone}
                 />
               </>
@@ -237,12 +237,12 @@ export default function BookingDetailPage() {
               <>
                 <DetailRow
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />}
-                  label="Provider"
+                  label="Prestador"
                   value={booking.service_provider}
                 />
                 <DetailRow
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
-                  label="Provider Phone"
+                  label="Telefone do Prestador"
                   value={booking.service_provider_tel}
                 />
               </>
@@ -259,9 +259,9 @@ export default function BookingDetailPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
           </div>
-          <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-2">Arrival OTP</p>
+          <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-2">OTP de Chegada</p>
           <p className="text-4xl font-bold text-blue-800 dark:text-blue-200 tracking-[0.3em] mb-2">{booking.arrival_otp}</p>
-          <p className="text-xs text-blue-600/70 dark:text-blue-400/70">Share this OTP with the provider when they arrive</p>
+          <p className="text-xs text-blue-600/70 dark:text-blue-400/70">Compartilhe este OTP com o prestador quando ele chegar</p>
         </div>
       )}
 
@@ -272,9 +272,9 @@ export default function BookingDetailPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <p className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-2">Completion OTP</p>
+          <p className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-2">OTP de Conclusão</p>
           <p className="text-4xl font-bold text-purple-800 dark:text-purple-200 tracking-[0.3em] mb-2">{booking.completion_otp}</p>
-          <p className="text-xs text-purple-600/70 dark:text-purple-400/70">Share this OTP when the work is completed</p>
+          <p className="text-xs text-purple-600/70 dark:text-purple-400/70">Compartilhe este OTP quando o trabalho for concluído</p>
         </div>
       )}
 
@@ -293,14 +293,14 @@ export default function BookingDetailPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Processing...
+                  Processando...
                 </>
               ) : (
                 <>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  Confirm Booking
+                  Confirmar Reserva
                 </>
               )}
             </button>
@@ -314,8 +314,8 @@ export default function BookingDetailPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                   </svg>
                 </div>
-                <p className="font-semibold text-gray-900 dark:text-white">Enter Arrival OTP</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Get this code from the customer</p>
+                <p className="font-semibold text-gray-900 dark:text-white">Digite o OTP de Chegada</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Obtenha este código do cliente</p>
               </div>
               <input
                 value={otpInput}
@@ -329,7 +329,7 @@ export default function BookingDetailPage() {
                 disabled={actionLoading || otpInput.length !== 4}
                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-4 rounded-xl font-semibold transition-all hover:shadow-lg disabled:opacity-60"
               >
-                {actionLoading ? 'Processing...' : 'Start Work'}
+                {actionLoading ? 'Processando...' : 'Iniciar Trabalho'}
               </button>
             </div>
           )}
@@ -342,8 +342,8 @@ export default function BookingDetailPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <p className="font-semibold text-gray-900 dark:text-white">Enter Completion OTP</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Get this code from the customer</p>
+                <p className="font-semibold text-gray-900 dark:text-white">Digite o OTP de Conclusão</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Obtenha este código do cliente</p>
               </div>
               <input
                 value={otpInput}
@@ -357,7 +357,7 @@ export default function BookingDetailPage() {
                 disabled={actionLoading || otpInput.length !== 4}
                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 rounded-xl font-semibold transition-all hover:shadow-lg disabled:opacity-60"
               >
-                {actionLoading ? 'Processing...' : 'Mark Complete'}
+                {actionLoading ? 'Processando...' : 'Marcar como Concluído'}
               </button>
             </div>
           )}
@@ -374,14 +374,14 @@ export default function BookingDetailPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Processing...
+                  Processando...
                 </>
               ) : (
                 <>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
-                  Initiate Payment · ₹{booking.amount}
+                  Iniciar Pagamento · R$ {booking.amount}
                 </>
               )}
             </button>
@@ -399,7 +399,7 @@ export default function BookingDetailPage() {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          {actionLoading ? 'Processing...' : 'Cancel Booking'}
+          {actionLoading ? 'Processando...' : 'Cancelar Reserva'}
         </button>
       )}
     </div>

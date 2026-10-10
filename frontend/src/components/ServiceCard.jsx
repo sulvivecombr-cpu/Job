@@ -24,7 +24,7 @@ export default function ServiceCard({ service }) {
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
           <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold text-primary-600 dark:text-primary-400 rounded-full shadow-sm">
-            {service.category?.name ?? 'General'}
+            {service.category?.name ?? 'Geral'}
           </span>
         </div>
         {/* Distance Badge */}
@@ -53,7 +53,7 @@ export default function ServiceCard({ service }) {
         {/* Footer */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
           <div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">₹{service.price}</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">R$ {service.price}</span>
           </div>
           <div className="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

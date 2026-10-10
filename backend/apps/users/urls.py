@@ -11,5 +11,6 @@ urlpatterns = [
     path('logout/',views.LogoutView.as_view(),name='logout'),
     path('location/',views.UpdateLocationView.as_view(),name='updateView'),
     path('profile_picture/',views.AddProfilePicture,name='upload_profile_picture'),
-    path('dashboard/',views.DashboardView.as_view())
+    path('dashboard/',views.DashboardView.as_view()),
+    path('me/',views.ProfileView.as_view(),name='profile')
 ]
