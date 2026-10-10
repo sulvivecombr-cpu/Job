@@ -1,0 +1,53 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "SETTINGS_SECRET_KEY",
+      "description": "Django SECRET_KEY for session/token signing. Required at boot.",
+      "requiredAtBoot": true,
+      "generatedForDevelopment": true
+    },
+    {
+      "name": "CLOUDINARY_CLOUD_NAME",
+      "description": "Cloudinary cloud name for image storage (service listings, profile photos). Get from Cloudinary dashboard.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CLOUDINARY_API_KEY",
+      "description": "Cloudinary API key. Get from Cloudinary dashboard.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CLOUDINARY_API_SECRET",
+      "description": "Cloudinary API secret. Get from Cloudinary dashboard.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "RAZORPAY_KEY_ID",
+      "description": "Razorpay key ID for payment processing. Get from Razorpay dashboard.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "RAZORPAY_KEY_SECRET",
+      "description": "Razorpay key secret for payment processing. Get from Razorpay dashboard.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "EMAIL_HOST_USER",
+      "description": "Gmail address for sending transactional emails. Get from your email provider.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "EMAIL_HOST_PASSWORD",
+      "description": "App password for the email account. Get from your email provider.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "DEFAULT_FROM_EMAIL",
+      "description": "From address for outgoing emails. Get from your email provider.",
+      "requiredAtBoot": false
+    }
+  ]
+}
